@@ -11,27 +11,23 @@ def check_dataset_exists():
         os.mkdir(datafolder)
     if not os.path.exists(datasource):
         with open(datasource, "w") as f:
-            f.write("")
-            
+            f.write('{"data": []}') 
             
 def read_usersdata():
     check_dataset_exists()
     with open(datasource, "r") as f:
         content = f.read()
         if content == "":
-            content = '{"data": []}'
+            content = '{"data": []}'  
         users = json.loads(content)
     return users
-
 
 def add_userdata(user: dict):
     users = read_usersdata()
 
-    with open(datasource, "w") as f:
-        if "data" in users:
-            users["data"].append(user)
-        else:
-            users["data"] = [user]
+    users["data"].append(user)
 
+  
+    with open(datasource, "w") as f:
         data = json.dumps(users, indent=2)
         f.write(data)
